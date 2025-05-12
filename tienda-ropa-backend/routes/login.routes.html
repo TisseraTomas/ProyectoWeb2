@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nombre Local - Ropa Femenina</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #4a3e38;
+      color: #fbe8d3;
+    }
+
+    .container {
+      display: flex;
+      flex-direction: row;
+      min-height: 100vh;
+    }
+
+    .left {
+      flex: 1;
+      padding: 60px 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+
+    .dots {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+
+    .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+    }
+
+    .dot1 {
+      background-color: #e6d1b3;
+    }
+
+    .dot2 {
+      background-color: #a88c6d;
+    }
+
+    .dot3 {
+      background-color: #705c4a;
+    }
+
+    h1 {
+      font-size: 48px;
+      font-weight: bold;
+      margin: 0;
+      line-height: 1;
+    }
+
+    .subtitulo {
+      font-style: italic;
+      color: #caa989;
+      margin: 20px 0;
+    }
+
+    .info {
+      font-size: 14px;
+      color: #d3bba3;
+      margin-bottom: 20px;
+    }
+
+    .info a {
+      color: inherit;
+      text-decoration: underline;
+    }
+
+    .box {
+      width: 100%;
+      max-width: 350px;
+      background-color: #bd9270;
+      padding: 20px;
+      border-radius: 8px;
+    }
+
+    .form-label,
+    .form-check-label,
+    .form-text {
+      font-size: 14px;
+      color: #2f1e1a;
+      margin-bottom: 20px;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 10px;
+      border: none;
+      border-radius: 4px;
+    }
+
+    .form-check-input {
+      margin-right: 5px;
+    }
+
+    .btn-primary {
+      width: 100%;
+      padding: 10px;
+      background-color: #4a3e38;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        flex-direction: column;
+      }
+
+      .left,
+      .right {
+        flex: none;
+        width: 100%;
+        padding: 20px;
+        height: auto;
+      }
+
+      h1 {
+        font-size: 36px;
+        text-align: center;
+      }
+
+      .box {
+        margin: 20px auto;
+      }
+
+      .right {
+        height: 250px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="left">
+      <div class="dots">
+        <div class="dot dot1"></div>
+        <div class="dot dot2"></div>
+        <div class="dot dot3"></div>
+      </div>
+      <h1>NOMBRE<br>LOCAL</h1>
+      <div class="subtitulo">Ropa Femenina</div>
+      <div class="info">
+        <a href="https://www.sitioincreible.com.ar" target="_blank">
+          www.sitioincreible.com.ar
+        </a>
+        <br>
+        Calle Cualquiera 123, Cualquier Lugar.
+      </div>
+      <div class="box">
+        <div class="mb-3">
+          <label for="exampleInputEmail1" class="form-label">Usuario/email</label>
+          <input class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+          <div id="emailHelp" class="form-text">Nunca compartiremos tu email con nadie.</div>
+        </div>
+        <div class="mb-3">
+          <label for="exampleInputPassword1" class="form-label">Contraseña</label>
+          <input type="password" class="form-control" id="exampleInputPassword1">
+        </div>
+        <div class="mb-3 form-check">
+          <input type="checkbox" class="form-check-input" id="exampleCheck1">
+          <label class="form-check-label" for="exampleCheck1">Recordarme</label>
+        </div>
+        <button type="submit" class="btn btn-primary">Iniciar sesión</button>
+      </div>
+    </div>
+    <div class="right"></div>
+  </div>
+</body>
+
+</html>
