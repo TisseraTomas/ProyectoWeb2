@@ -1,0 +1,42 @@
+.bg-navbar-color {
+    background-color: #bd9270;
+    /* tu color personalizado */
+}
+
+.carousel-item {
+    max-height: 500px;
+}
+
+@media (min-width: 992px) {
+    .col-lg-1-5 {
+        flex: 0 0 auto;
+        width: 20%;
+    }
+}
+
+.product-card img {
+    height: 300px;
+    object-fit: cover;
+}
+
+.carousel-item .row {
+    justify-content: center;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    background-color: black;
+    border-radius: 50%;
+    padding: 10px;
+}
+
+.card-title {
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+.price {
+    font-weight: bold;
+    font-size: 1.1rem;
+}
