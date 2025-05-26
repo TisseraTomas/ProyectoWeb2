@@ -40,3 +40,37 @@
     font-weight: bold;
     font-size: 1.1rem;
 }
+
+/* Define la base para submenús */
+.dropdown-submenu {
+  position: relative;
+}
+
+/* Submenús en cascada hacia la derecha (escritorio) */
+.dropdown-submenu > .dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 100%;
+  margin-top: 0;
+}
+
+/* Mostrar submenús al hacer clic */
+.dropdown-submenu > .dropdown-menu.show {
+  display: block;
+}
+
+/* Adaptación para dispositivos móviles */
+@media (max-width: 800px) {
+  .dropdown-submenu > .dropdown-menu {
+    position: relative;
+    left: 0;
+    top: 0;
+  }
+
+  /* Ajustes para niveles más profundos */
+  .dropdown-submenu .multi-menu {
+    left: 0;
+    top: 0;
+  }
+}
