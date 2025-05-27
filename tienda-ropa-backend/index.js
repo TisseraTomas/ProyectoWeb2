@@ -8,7 +8,7 @@ dotenv.config();
 const app = express();
 app.use(cors());
 app.use(express.json());
-
+app.use(express.static('public')); //Para ver la imagenes en el front
 // Rutas
 app.use('/api/productos', productosRoutes);
 

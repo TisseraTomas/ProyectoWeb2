@@ -1,60 +1,68 @@
 import express from 'express';
-const router = express.Router();
 import conn from '../db/conn.js';
+import multer from 'multer';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import sharp from 'sharp';
+import fs from 'fs';
 
-const multer = require('multer');
-const path = require('path');
+const router = express.Router();
 
-// Configurar almacenamiento de imágenes
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, 'public/img/');
-  },
-  filename: (req, file, cb) => {
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-    const ext = path.extname(file.originalname);
-    cb(null, 'producto-' + uniqueSuffix + ext);
-  }
-});
+// Necesario para __dirname en ES Modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-const upload = multer({ storage });
-
-// GET todos los productos
-router.get('/', (req, res) => {
-  conn.query('SELECT * FROM productos', (err, results) => {
-    if (err) return res.status(500).json({ error: err });
-    res.json(results);
-  });
-});
+// Multer: almacenamiento temporal
+const upload = multer({ dest: 'uploads/' }); // sube a carpeta temporal
 
 // Ruta para agregar un producto
-router.post('/api/productos/agregar', upload.single('imagen'), (req, res) => {
-  const {
-    nombre,
-    categoria,
-    precio,
-    stock,
-    codigo_barras,
-    talla,
-    color
-  } = req.body;
+router.post('/api/productos/agregar', upload.single('imagen'), async (req, res) => {
+  try {
+    const {
+      nombre,
+      categoria,
+      precio,
+      stock,
+      codigo_barras,
+      talla,
+      color
+    } = req.body;
 
-  // Si no se subió imagen, usar una por defecto
-  const imagen = req.file ? req.file.filename : 'default.jpg';
+    let imagen = 'default.jpg';
 
-  const sql = `
-    INSERT INTO productos 
-    (nombre, categoria, precio, stock, codigo_barras, talla, color, imagen) 
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-  `;
+    // Si se subió imagen
+    if (req.file) {
+      const nombreFinal = `producto-${Date.now()}.jpg`;
+      const rutaDestino = path.join(__dirname, '../public/img/', nombreFinal);
 
-  conn.query(sql, [nombre, categoria, precio, stock, codigo_barras, talla, color, imagen], (err, result) => {
-    if (err) {
-      console.error('Error al insertar producto:', err);
-      return res.status(500).json({ error: 'Error al insertar producto' });
+      // Convertir a .jpg y guardar en carpeta final
+      await sharp(req.file.path)
+        .resize({ width: 800 }) // opcional: redimensionar
+        .jpeg({ quality: 80 })
+        .toFile(rutaDestino);
+
+      fs.unlinkSync(req.file.path); // eliminar archivo temporal
+
+      imagen = nombreFinal;
     }
-    res.json({ mensaje: 'Producto agregado correctamente', id: result.insertId });
-  });
+
+    const sql = `
+      INSERT INTO productos 
+      (nombre, categoria, precio, stock, codigo_barras, talla, color, imagen) 
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+    `;
+
+    conn.query(sql, [nombre, categoria, precio, stock, codigo_barras, talla, color, imagen], (err, result) => {
+      if (err) {
+        console.error('Error al insertar producto:', err);
+        return res.status(500).json({ error: 'Error al insertar producto' });
+      }
+      res.json({ mensaje: 'Producto agregado correctamente', id: result.insertId });
+    });
+  } catch (error) {
+    console.error('Error en el procesamiento de imagen:', error);
+    res.status(500).json({ error: 'Error procesando imagen' });
+  }
 });
 
 
