@@ -18,5 +18,5 @@ conn.connect((err) => {
   console.log('Conexión exitosa a la base de datos');
 });
 
-export default conn;
+export default conn.promise();
 

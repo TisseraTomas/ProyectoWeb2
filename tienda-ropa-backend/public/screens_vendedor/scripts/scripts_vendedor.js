@@ -7,7 +7,7 @@ function renderBarcode(code) {
     JsBarcode("#barcodePreview", code, { height: 40, width: 2 });
 }
 
-// ------- Alta de producto -------
+/*// ------- Alta de producto -------
 document.getElementById("formAlta").addEventListener("submit", async (e) => {
     e.preventDefault();
     const form = e.target;
@@ -29,7 +29,7 @@ document.getElementById("formAlta").addEventListener("submit", async (e) => {
         msg.textContent = error || "Error al guardar.";
     }
     msg.classList.remove("d-none");
-});
+});*/
 
 //Maneja la carga de un producto
 document.getElementById('formAlta').addEventListener('submit', async function (e) {
@@ -65,3 +65,4 @@ document.getElementById('formAlta').addEventListener('submit', async function (e
     msg.classList.remove('d-none');
   }
 });
+
