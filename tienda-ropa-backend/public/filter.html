@@ -1,0 +1,55 @@
+<div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions"
+    aria-labelledby="offcanvasWithBothOptionsLabel">
+    <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasWithBothOptionsLabel">FILTRAR POR</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Cerrar"></button>
+    </div>
+
+    <div class="offcanvas-body">
+        <!-- Categorías -->
+        <strong>Categorías</strong>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="categoria" id="sale">
+            <label class="form-check-label" for="sale">NINA SALE</label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="categoria" id="noche">
+            <label class="form-check-label" for="noche">NOCHE</label>
+        </div>
+
+        <!-- Talles -->
+        <strong class="mt-3 d-block">Talles</strong>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="talle" id="t36">
+            <label class="form-check-label" for="t36">36</label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="talle" id="t38">
+            <label class="form-check-label" for="t38">38</label>
+        </div>
+
+        <!-- Colores -->
+        <strong class="mt-3 d-block">Color</strong>
+        <div class="form-check d-flex align-items-center gap-2">
+            <input class="form-check-input" type="radio" name="color" id="verde">
+            <label class="form-check-label" for="verde">
+                <span class="d-inline-block rounded-circle"
+                    style="width: 16px; height: 16px; background-color: limegreen;"></span>
+                Verde Manzana
+            </label>
+        </div>
+
+        <!-- Precio -->
+        <strong class="mt-3 d-block">Precio</strong>
+        <input type="range" class="form-range" min="2800" max="69100" step="100" id="precioRange">
+        <div>AR$2.800 — AR$69.100</div>
+
+        <!-- Botones -->
+        <div class="d-flex gap-2 mt-4">
+            <button class="btn btn-dark w-100" id="clear">ACEPTAR</button>
+            <button class="btn btn-dark" id="clearFiltersBtn">ELIMINAR FILTROS</button>
+        </div>
+    </div>
+</div>
+
+
