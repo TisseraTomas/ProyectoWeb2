@@ -113,6 +113,46 @@ router.post('/ventas/vender', async (req, res) => {
   }
 });
 
+//Trae todos los productos con fecha de creacion
+router.get('/mostrar/catalogo', async (req, res) => {
+  try {
+    const [productos] = await conn.query('SELECT * FROM productos');
+
+    const productosConFlag = productos.map(p => {
+      const fecha = new Date(p.fecha_creacion);
+      const ahora = new Date();
+      const esNuevo = (ahora - fecha) <= 7 * 24 * 60 * 60 * 1000; // últimos 7 días
+      return { ...p, esNuevo };
+    });
+
+    res.json(productosConFlag);
+  } catch (err) {
+    console.error('Error al obtener productos:', err);
+    res.status(500).json({ error: 'Error interno' });
+  }
+});
+
+// Trae solo los productos nuevos (últimos 7 días)
+router.get('/mostrar/catalogo/nuevos', async (req, res) => {
+  try {
+    const [productos] = await conn.query('SELECT * FROM productos');
+
+    const ahora = new Date();
+    const productosNuevos = productos.filter(p => {
+      const fecha = new Date(p.fecha_creacion);
+      return (ahora - fecha) <= 7 * 24 * 60 * 60 * 1000; // últimos 7 días
+    });
+
+    // Agregamos el flag esNuevo como true explícitamente
+    const productosConFlag = productosNuevos.map(p => ({ ...p, esNuevo: true }));
+
+    res.json(productosConFlag);
+  } catch (err) {
+    console.error('Error al obtener productos nuevos:', err);
+    res.status(500).json({ error: 'Error interno' });
+  }
+});
+
 //Trae todos los productos
 router.get('/', async (req, res) => {
   try {
