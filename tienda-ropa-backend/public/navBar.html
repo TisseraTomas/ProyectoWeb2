@@ -26,6 +26,11 @@
         border-radius: 20px;
         padding: 4px 12px;
     }
+
+    .dropdown-menu {
+        background-color: #f5f1ee;
+        /* o cualquier color que prefieras */
+    }
 </style>
 <nav class="navbar navbar-expand-lg fixed-top bg-navbar-color px-5 py-4">
     <div class="container-fluid">
@@ -56,47 +61,57 @@
                                         <li>
                                             <h6 class="dropdown-header">DENIM</h6>
                                         </li>
-                                        <li><a class="dropdown-item" href="#">WIDE LEG</a></li>
-                                        <li><a class="dropdown-item" href="#">MOM - RECTO</a></li>
-
+                                        <li><a class="dropdown-item" href="productos.html?categoria=WIDE LEG">WIDE LEG</a></li>
+                                        <li><a class="dropdown-item" href="productos.html?categoria=MOM RECTO">MOM - RECTO</a></li>
                                         <li>
                                             <hr class="dropdown-divider">
                                         </li>
-                                        <li>
-                                            <h6 class="dropdown-header">ABRIGOS</h6>
+                                        <li><a class="dropdown-item" href="productos.html?categoria=REMERAS">REMERAS</a>
                                         </li>
-                                        <li><a class="dropdown-item" href="productos.html?categoria=BUZOS">BUZOS</a></li>
-                                        <li><a class="dropdown-item" href="#">CAMPERAS</a></li>
-                                        <li><a class="dropdown-item" href="#">SWEATER</a></li>
-                                        <li><a class="dropdown-item" href="#">CHALECOS</a></li>
-                                        <li>
-                                            <hr class="dropdown-divider">
-                                        </li>
-                                        <li><a class="dropdown-item" href="#">TOP</a></li>
-                                        <li><a class="dropdown-item" href="#">REMERAS</a></li>
-                                        <li><a class="dropdown-item" href="#">REMERONES</a></li>
-                                        <li><a class="dropdown-item" href="#">CAMISAS</a></li>
-                                        <li><a class="dropdown-item" href="#">PANTALONES</a></li>
-                                    </ul>
+                                        <li><a class="dropdown-item"
+                                                href="productos.html?categoria=REMERONES">REMERONES</a></li>
                                 </div>
 
                                 <!-- Columna del medio -->
-                                <div class="col-md-3 ps-4">
+                                <div class="col-md-3 pe-4 me-4 border-end">
                                     <ul class="list-unstyled">
-                                        <li><a class="dropdown-item" href="#">TOPS NOCHE</a></li>
-                                        <li><a class="dropdown-item" href="#">VESTIDOS</a></li>
-                                        <li><a class="dropdown-item" href="#">BODYS</a></li>
-                                        <li><a class="dropdown-item" href="#">STRAPLESS</a></li>
-                                        <li><a class="dropdown-item" href="#">SHORTS - MINIS</a></li>
+                                        <li>
+                                            <h6 class="dropdown-header">ABRIGOS</h6>
+                                        </li>
+                                        <li><a class="dropdown-item" href="productos.html?categoria=BUZOS">BUZOS</a>
+                                        </li>
+                                        <li><a class="dropdown-item"
+                                                href="productos.html?categoria=CAMPERAS">CAMPERAS</a></li>
+                                        <li><a class="dropdown-item" href="productos.html?categoria=SWEATER">SWEATER</a>
+                                        </li>
+                                        <li><a class="dropdown-item"
+                                                href="productos.html?categoria=CHALECO">CHALECOS</a></li>
+                                        <li>
+                                            <hr class="dropdown-divider">
+                                        </li>
+                                        <li><a class="dropdown-item" href="productos.html?categoria=CAMISAS">CAMISAS</a>
+                                        </li>
+                                        <li><a class="dropdown-item"
+                                                href="productos.html?categoria=PANTALONES">PANTALONES</a></li>
                                     </ul>
                                 </div>
 
-                                <!-- Columna derecha con imágenes -->
-                                <div class="col-md-3 d-flex justify-content-evenly align-items-center">
-                                    <img src="/public/img/look1.jpg" alt="Look 1" class="img-fluid rounded-circle"
-                                        style="width: 120px; height: 120px;">
-                                    <img src="/public/img/look2.jpg" alt="Look 2" class="img-fluid rounded-circle"
-                                        style="width: 120px; height: 120px;">
+                                <!-- Columna derecha -->
+                                <div class="col-md-3 pe-4 me-4">
+                                    <ul class="list-unstyled">
+                                        <li><a class="dropdown-item" href="productos.html?categoria=TOP">TOP</a></li>
+                                        <li><a class="dropdown-item" href="productos.html?categoria=TOPS NOCHE">TOPS
+                                                NOCHE</a></li>
+                                        <li><a class="dropdown-item"
+                                                href="productos.html?categoria=VESTIDOS">VESTIDOS</a></li>
+                                        <li><a class="dropdown-item" href="productos.html?categoria=BODYS">BODYS</a>
+                                        </li>
+                                        <li><a class="dropdown-item"
+                                                href="productos.html?categoria=STRAPLESS">STRAPLESS</a></li>
+                                        <li><a class="dropdown-item"
+                                                href="productos.html?categoria=SHORTS - MINIS">SHORTS - MINIS</a></li>
+
+                                    </ul>
                                 </div>
                             </div>
                         </div>
@@ -113,27 +128,13 @@
                                 <div class="col-md-1"></div>
 
                                 <!-- Columna izquierda -->
-                                <div class="col-md-3 pe-4 me-4 border-end">
+                                <div class="col-md-3 pe-4 me-4">
                                     <ul class="list-unstyled">
                                         <li><a class="dropdown-item" href="#">¿QUIENES SOMOS?</a></li>
                                         <li><a class="dropdown-item" href="#">TIENDA</a></li>
                                         <li><a class="dropdown-item" href="#">CONTÁCTANOS</a></li>
                                     </ul>
                                 </div>
-
-                                <!-- Columna del medio -->
-                                <div class="col-md-3 ps-4">
-
-                                </div>
-
-                                <!-- Columna derecha con imágenes -->
-                                <div class="col-md-3 d-flex justify-content-evenly align-items-center">
-                                    <img src="/public/img/look1.jpg" alt="Look 1" class="img-fluid rounded-circle"
-                                        style="width: 120px; height: 120px;">
-                                    <img src="/public/img/look2.jpg" alt="Look 2" class="img-fluid rounded-circle"
-                                        style="width: 120px; height: 120px;">
-                                </div>
-
                             </div>
                         </div>
                     </div>

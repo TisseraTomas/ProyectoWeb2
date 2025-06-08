@@ -25,11 +25,11 @@
 
             <div id="filter-container"></div>
             <!-- Botón para abrir el filtro -->
-            <button class="btn btn-dark me-auto" type="button" data-bs-toggle="offcanvas"
+            <button class="btn me-auto" style="background-color: #b88b6a; color: black;" type="button" data-bs-toggle="offcanvas"
                 data-bs-target="#offcanvasWithBothOptions">
                 Filtrar productos
             </button>
-            <select class="form-select" style="width: auto;">
+            <select class="form-select" style="width: auto; background-color: #b88b6a; color: black;">
                 <option selected>Ordenar por...</option>
                 <option value="1">Menor precio</option>
                 <option value="2">Mayor precio</option>
@@ -38,21 +38,7 @@
         </div>
 
         <!-- Grid de productos -->
-        <div class="row" id="productosContainer">
-            <!-- Producto de ejemplo -->
-            <!-- <div class="col-md-3 mb-4 producto-card">
-                <a href="detalle-producto.html" class="text-decoration-none text-dark">
-                    <div class="card position-relative">
-                        <span class="badge-new">NEW IN</span>
-                        <img src="https://via.placeholder.com/400x400" class="card-img-top" alt="Producto">
-                        <div class="card-body text-center">
-                            <h6 class="card-title fw-bold text-uppercase">Producto 1</h6>
-                            <p class="card-text fw-bold">$ 14.400</p>
-                        </div>
-                    </div>
-                </a>
-            </div> -->
-        </div>
+        <div class="row" id="productosContainer"></div>
 
     </div>
 
@@ -70,27 +56,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
     <script src="scripts/scripts_productos.js"></script>
-    <!-- <script>
-        let contador = 2;
-        function agregarProducto() {
-            const contenedor = document.getElementById('productos-container');
-            const col = document.createElement('div');
-            col.className = 'col-md-3 mb-4 producto-card';
-            col.innerHTML = `
-        <div class="card position-relative">
-          <span class="badge-new">NEW IN</span>
-          <img src="https://via.placeholder.com/400x400" class="card-img-top" alt="Producto">
-          <div class="card-body text-center">
-            <h6 class="card-title fw-bold text-uppercase">Producto ${contador}</h6>
-            <p class="card-text fw-bold">$ ${(Math.random() * 20000 + 5000).toFixed(0)}</p>
-          </div>
-        </div>
-      `;
-            contenedor.appendChild(col);
-            contador++;
-        }
-    </script> -->
-
+   
 </body>
 
 </html>

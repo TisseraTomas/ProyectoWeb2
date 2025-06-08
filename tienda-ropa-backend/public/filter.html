@@ -1,43 +1,205 @@
-<div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions"
-    aria-labelledby="offcanvasWithBothOptionsLabel">
+<div class="offcanvas offcanvas-start" style="background-color: #b88b6a;" data-bs-scroll="true" tabindex="-1"
+    id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
     <div class="offcanvas-header">
         <h5 class="offcanvas-title" id="offcanvasWithBothOptionsLabel">FILTRAR POR</h5>
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Cerrar"></button>
     </div>
+    <style>
+        .bg-filter-color {
+            background-color: #f5f1ee;
+        }
+    </style>
+    <div class="offcanvas-body bg-filter-color">
 
-    <div class="offcanvas-body">
         <!-- Categorías -->
         <strong>Categorías</strong>
-        <div class="form-check">
-            <input class="form-check-input" type="radio" name="categoria" id="sale">
-            <label class="form-check-label" for="sale">NINA SALE</label>
-        </div>
-        <div class="form-check">
-            <input class="form-check-input" type="radio" name="categoria" id="noche">
-            <label class="form-check-label" for="noche">NOCHE</label>
+        <div style="max-height: 150px; overflow-y: auto;">
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="categoria" id="sale">
+                <label class="form-check-label" for="sale">NINA SALE</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="categoria" id="noche1">
+                <label class="form-check-label" for="noche">NOCHE</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="categoria" id="wide-leg">
+                <label class="form-check-label" for="wide-leg">WIDE LEG</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="categoria" id="newin">
+                <label class="form-check-label" for="newin">NEW IN</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="categoria" id="mom-recto">
+                <label class="form-check-label" for="mom-recto">MOM - RECTO</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="categoria" id="remeras">
+                <label class="form-check-label" for="remeras">REMERAS</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="categoria" id="remerones">
+                <label class="form-check-label" for="remerones">REMERONES</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="categoria" id="buzos">
+                <label class="form-check-label" for="buzos">BUZOS</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="categoria" id="camperas">
+                <label class="form-check-label" for="camperas">CAMPERAS</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="categoria" id="sweaters">
+                <label class="form-check-label" for="sweaters">SWEATERS</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="categoria" id="noche">
+                <label class="form-check-label" for="chalecos">CHALECOS</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="categoria" id="noche">
+                <label class="form-check-label" for="camisas">CAMISAS</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="categoria" id="noche">
+                <label class="form-check-label" for="pantalones">PANTALONES</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="categoria" id="noche">
+                <label class="form-check-label" for="top">TOP</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="categoria" id="noche">
+                <label class="form-check-label" for="tops-noche">TOPS NOCHE</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="categoria" id="noche">
+                <label class="form-check-label" for="vestidos">VESTIDOS</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="categoria" id="noche">
+                <label class="form-check-label" for="body">BODY</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="categoria" id="noche">
+                <label class="form-check-label" for="strapless">STRAPLESS</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="categoria" id="noche">
+                <label class="form-check-label" for="short-minis">SHORT - MINIS</label>
+            </div>
         </div>
 
         <!-- Talles -->
         <strong class="mt-3 d-block">Talles</strong>
         <div class="form-check">
-            <input class="form-check-input" type="radio" name="talle" id="t36">
-            <label class="form-check-label" for="t36">36</label>
+            <input class="form-check-input" type="radio" name="talle" id="XS">
+            <label class="form-check-label" for="XS">XS</label>
         </div>
         <div class="form-check">
-            <input class="form-check-input" type="radio" name="talle" id="t38">
-            <label class="form-check-label" for="t38">38</label>
+            <input class="form-check-input" type="radio" name="talle" id="S">
+            <label class="form-check-label" for="S">S</label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="talle" id="M">
+            <label class="form-check-label" for="M">M</label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="talle" id="L">
+            <label class="form-check-label" for="L">L</label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="talle" id="XL">
+            <label class="form-check-label" for="XL">XL</label>
         </div>
 
         <!-- Colores -->
         <strong class="mt-3 d-block">Color</strong>
-        <div class="form-check d-flex align-items-center gap-2">
-            <input class="form-check-input" type="radio" name="color" id="verde">
-            <label class="form-check-label" for="verde">
-                <span class="d-inline-block rounded-circle"
-                    style="width: 16px; height: 16px; background-color: limegreen;"></span>
-                Verde Manzana
-            </label>
+        <div style="max-height: 150px; overflow-y: auto;">
+            <div class="form-check d-flex align-items-center gap-2">
+                <input class="form-check-input" type="radio" name="color" id="verde">
+                <label class="form-check-label" for="verde">
+                    <span class="d-inline-block rounded-circle"
+                        style="width: 16px; height: 16px; background-color: limegreen;"></span>
+                    Verde Manzana
+                </label>
+            </div>
+            <div class="form-check d-flex align-items-center gap-2">
+                <input class="form-check-input" type="radio" name="color" id="negro">
+                <label class="form-check-label" for="negro">
+                    <span class="d-inline-block rounded-circle"
+                        style="width: 16px; height: 16px; background-color: black;"></span>
+                    Negro
+                </label>
+            </div>
+            <div class="form-check d-flex align-items-center gap-2">
+                <input class="form-check-input" type="radio" name="color" id="blanco">
+                <label class="form-check-label" for="blanco">
+                    <span class="d-inline-block rounded-circle"
+                        style="width: 16px; height: 16px; background-color: white; border: 1px solid #ccc;"></span>
+                    Blanco
+                </label>
+            </div>
+            <div class="form-check d-flex align-items-center gap-2">
+                <input class="form-check-input" type="radio" name="color" id="rojo">
+                <label class="form-check-label" for="rojo">
+                    <span class="d-inline-block rounded-circle"
+                        style="width: 16px; height: 16px; background-color: red;"></span>
+                    Rojo
+                </label>
+            </div>
+            <div class="form-check d-flex align-items-center gap-2">
+                <input class="form-check-input" type="radio" name="color" id="azul">
+                <label class="form-check-label" for="azul">
+                    <span class="d-inline-block rounded-circle"
+                        style="width: 16px; height: 16px; background-color: blue;"></span>
+                    Azul
+                </label>
+            </div>
+            <div class="form-check d-flex align-items-center gap-2">
+                <input class="form-check-input" type="radio" name="color" id="rosa">
+                <label class="form-check-label" for="rosa">
+                    <span class="d-inline-block rounded-circle"
+                        style="width: 16px; height: 16px; background-color: pink;"></span>
+                    Rosa
+                </label>
+            </div>
+            <div class="form-check d-flex align-items-center gap-2">
+                <input class="form-check-input" type="radio" name="color" id="beige">
+                <label class="form-check-label" for="beige">
+                    <span class="d-inline-block rounded-circle"
+                        style="width: 16px; height: 16px; background-color: beige;"></span>
+                    Beige
+                </label>
+            </div>
+            <div class="form-check d-flex align-items-center gap-2">
+                <input class="form-check-input" type="radio" name="color" id="gris">
+                <label class="form-check-label" for="gris">
+                    <span class="d-inline-block rounded-circle"
+                        style="width: 16px; height: 16px; background-color: gray;"></span>
+                    Gris
+                </label>
+            </div>
+            <div class="form-check d-flex align-items-center gap-2">
+                <input class="form-check-input" type="radio" name="color" id="celeste">
+                <label class="form-check-label" for="celeste">
+                    <span class="d-inline-block rounded-circle"
+                        style="width: 16px; height: 16px; background-color: skyblue;"></span>
+                    Celeste
+                </label>
+            </div>
+            <div class="form-check d-flex align-items-center gap-2">
+                <input class="form-check-input" type="radio" name="color" id="marron">
+                <label class="form-check-label" for="marron">
+                    <span class="d-inline-block rounded-circle"
+                        style="width: 16px; height: 16px; background-color: sienna;"></span>
+                    Marrón
+                </label>
+            </div>
         </div>
+
 
         <!-- Precio -->
         <strong class="mt-3 d-block">Precio</strong>
@@ -46,10 +208,34 @@
 
         <!-- Botones -->
         <div class="d-flex gap-2 mt-4">
-            <button class="btn btn-dark w-100" id="clear">ACEPTAR</button>
-            <button class="btn btn-dark" id="clearFiltersBtn">ELIMINAR FILTROS</button>
+            <button class="btn w-100" style="background-color: #b88b6a; color: black;"
+                id="clear"><strong>ACEPTAR</strong></button>
+            <button class="btn" style="background-color: #b88b6a; color: black;" id="clearFiltersBtn"><strong>ELIMINAR
+                    FILTROS</strong></button>
         </div>
     </div>
 </div>
 
+<script>
+    document.querySelectorAll('input[name="categoria"]').forEach(input => {
+        input.addEventListener('change', function () {
+            if (this.checked) {
+                const categoria = this.nextElementSibling.innerText.trim();
+                window.location.href = `productos.html?categoria=${encodeURIComponent(categoria)}`;
+            }
+        });
+    });
 
+    window.addEventListener('DOMContentLoaded', () => {
+        const params = new URLSearchParams(window.location.search);
+        const categoriaParam = params.get('categoria');
+        if (categoriaParam) {
+            document.querySelectorAll('input[name="categoria"]').forEach(input => {
+                const label = document.querySelector(`label[for="${input.id}"]`);
+                if (label && label.innerText.trim() === categoriaParam) {
+                    input.checked = true;
+                }
+            });
+        }
+    });
+</script>
