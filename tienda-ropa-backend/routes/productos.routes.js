@@ -19,6 +19,7 @@ router.post('/agregar', upload.single('imagen'), async (req, res) => {
   try {
     const {
       nombre,
+      producto_padre_id,
       categoria,
       precio,
       stock,
@@ -29,38 +30,50 @@ router.post('/agregar', upload.single('imagen'), async (req, res) => {
 
     let imagen = 'default.jpg';
 
-    // Si se subió imagen
     if (req.file) {
       const nombreFinal = `producto-${Date.now()}.jpg`;
       const rutaDestino = path.join(__dirname, '../public/img/', nombreFinal);
 
-      // Convertir a .jpg y guardar en carpeta final
       await sharp(req.file.path)
-        .resize({ width: 800 }) // opcional: redimensionar
+        .resize({ width: 800 })
         .jpeg({ quality: 80 })
         .toFile(rutaDestino);
 
-      fs.unlinkSync(req.file.path); // eliminar archivo temporal
-
+      fs.unlinkSync(req.file.path);
       imagen = nombreFinal;
     }
 
     const sql = `
       INSERT INTO productos 
-      (nombre, categoria, precio, stock, codigo_barras, talla, color, imagen) 
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+      (nombre, producto_padre_id, categoria, precio, stock, codigo_barras, talla, color, imagen) 
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
 
-    conn.query(sql, [nombre, categoria, precio, stock, codigo_barras, talla, color, imagen], (err, result) => {
-      if (err) {
-        console.error('Error al insertar producto:', err);
-        return res.status(500).json({ error: 'Error al insertar producto' });
-      }
-      res.json({ mensaje: 'Producto agregado correctamente', id: result.insertId });
+    const [result] = await conn.query(sql, [
+      nombre,
+      producto_padre_id,
+      categoria,
+      precio,
+      stock,
+      codigo_barras,
+      talla,
+      color,
+      imagen
+    ]);
+
+    return res.status(200).json({
+      mensaje: 'Producto agregado correctamente',
+      id: result.insertId
     });
+
   } catch (error) {
-    console.error('Error en el procesamiento de imagen:', error);
-    res.status(500).json({ error: 'Error procesando imagen' });
+    console.error('Error en /agregar:', error);
+
+    if (error.code === 'ER_DUP_ENTRY') {
+      return res.status(400).json({ error: 'Ese código de barras ya existe.' });
+    }
+
+    return res.status(500).json({ error: 'Error interno del servidor.' });
   }
 });
 
@@ -190,6 +203,50 @@ router.get('/id/:id', async (req, res) => {
     res.status(500).json({ mensaje: 'Error al obtener producto' });
     /*console.error('Error al obtener producto por ID:', error);
     res.status(500).json({ mensaje: 'Error al obtener producto' });*/
+  }
+});
+
+// Obtener variantes agrupadas por talle y color para un producto padre
+router.get('/grupo/:producto_padre_id', async (req, res) => {
+  const padreId = req.params.producto_padre_id;
+
+  try {
+    const [variantes] = await conn.query(`
+      SELECT id, nombre, talla, color, imagen, stock, precio
+      FROM productos
+      WHERE producto_padre_id = ?
+    `, [padreId]);
+
+    if (variantes.length === 0) {
+      return res.status(404).json({ mensaje: 'No se encontraron variantes para este producto' });
+    }
+
+    // Tomar el nombre común desde la primera variante
+    const nombreBase = variantes[0].nombre;
+
+    // Agrupar por talle y color
+    const resultado = {
+      nombre: nombreBase,
+      variantes: {}
+    };
+
+    variantes.forEach(prod => {
+      if (!resultado.variantes[prod.talla]) {
+        resultado.variantes[prod.talla] = {};
+      }
+
+      resultado.variantes[prod.talla][prod.color] = {
+        id: prod.id,
+        imagen: prod.imagen,
+        stock: prod.stock,
+        precio: prod.precio
+      };
+    });
+
+    res.json(resultado);
+  } catch (error) {
+    console.error('Error al obtener grupo de productos:', error);
+    res.status(500).json({ mensaje: 'Error del servidor' });
   }
 });
 

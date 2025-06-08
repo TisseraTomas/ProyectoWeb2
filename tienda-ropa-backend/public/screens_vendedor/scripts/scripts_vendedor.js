@@ -43,7 +43,7 @@ document.getElementById('formAlta').addEventListener('submit', async function (e
       method: 'POST',
       body: formData
     });
-
+    console.log('Respuesta:', res); // 👈 Esto te muestra si vino con status 200 o error
     const data = await res.json();
 
     const msg = document.getElementById('altaMsg');
