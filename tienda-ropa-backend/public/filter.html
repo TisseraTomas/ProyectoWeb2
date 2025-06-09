@@ -15,7 +15,7 @@
                 <label class="form-check-label" for="sale">NINA SALE</label>
             </div>
             <div class="form-check">
-                <input class="form-check-input" type="radio" name="categoria" id="noche1">
+                <input class="form-check-input" type="radio" name="categoria" id="noche">
                 <label class="form-check-label" for="noche">NOCHE</label>
             </div>
             <div class="form-check">
@@ -51,39 +51,39 @@
                 <label class="form-check-label" for="sweaters">SWEATERS</label>
             </div>
             <div class="form-check">
-                <input class="form-check-input" type="radio" name="categoria" id="noche">
+                <input class="form-check-input" type="radio" name="categoria" id="chalecos">
                 <label class="form-check-label" for="chalecos">CHALECOS</label>
             </div>
             <div class="form-check">
-                <input class="form-check-input" type="radio" name="categoria" id="noche">
+                <input class="form-check-input" type="radio" name="categoria" id="camisas">
                 <label class="form-check-label" for="camisas">CAMISAS</label>
             </div>
             <div class="form-check">
-                <input class="form-check-input" type="radio" name="categoria" id="noche">
+                <input class="form-check-input" type="radio" name="categoria" id="pantalones">
                 <label class="form-check-label" for="pantalones">PANTALONES</label>
             </div>
             <div class="form-check">
-                <input class="form-check-input" type="radio" name="categoria" id="noche">
+                <input class="form-check-input" type="radio" name="categoria" id="top">
                 <label class="form-check-label" for="top">TOP</label>
             </div>
             <div class="form-check">
-                <input class="form-check-input" type="radio" name="categoria" id="noche">
+                <input class="form-check-input" type="radio" name="categoria" id="tops-noche">
                 <label class="form-check-label" for="tops-noche">TOPS NOCHE</label>
             </div>
             <div class="form-check">
-                <input class="form-check-input" type="radio" name="categoria" id="noche">
+                <input class="form-check-input" type="radio" name="categoria" id="vestidos">
                 <label class="form-check-label" for="vestidos">VESTIDOS</label>
             </div>
             <div class="form-check">
-                <input class="form-check-input" type="radio" name="categoria" id="noche">
+                <input class="form-check-input" type="radio" name="categoria" id="body">
                 <label class="form-check-label" for="body">BODY</label>
             </div>
             <div class="form-check">
-                <input class="form-check-input" type="radio" name="categoria" id="noche">
+                <input class="form-check-input" type="radio" name="categoria" id="strapless">
                 <label class="form-check-label" for="strapless">STRAPLESS</label>
             </div>
             <div class="form-check">
-                <input class="form-check-input" type="radio" name="categoria" id="noche">
+                <input class="form-check-input" type="radio" name="categoria" id="short-minis">
                 <label class="form-check-label" for="short-minis">SHORT - MINIS</label>
             </div>
         </div>
@@ -200,7 +200,7 @@
         <!-- Precio -->
         <strong class="mt-3 d-block">Precio</strong>
         <input type="range" class="form-range" min="2800" max="69100" step="100" id="precioRange">
-        <div>AR$2.800 — AR$69.100</div>
+        <div id="precioLabel">AR$2.800 — AR$69.100</div>
 
         <!-- Botones -->
         <div class="d-flex gap-2 mt-4">
@@ -211,27 +211,3 @@
         </div>
     </div>
 </div>
-
-<script>
-    document.querySelectorAll('input[name="categoria"]').forEach(input => {
-        input.addEventListener('change', function () {
-            if (this.checked) {
-                const categoria = this.nextElementSibling.innerText.trim();
-                window.location.href = `productos.html?categoria=${encodeURIComponent(categoria)}`;
-            }
-        });
-    });
-
-    window.addEventListener('DOMContentLoaded', () => {
-        const params = new URLSearchParams(window.location.search);
-        const categoriaParam = params.get('categoria');
-        if (categoriaParam) {
-            document.querySelectorAll('input[name="categoria"]').forEach(input => {
-                const label = document.querySelector(`label[for="${input.id}"]`);
-                if (label && label.innerText.trim() === categoriaParam) {
-                    input.checked = true;
-                }
-            });
-        }
-    });
-</script>

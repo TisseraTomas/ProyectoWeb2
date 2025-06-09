@@ -25,7 +25,7 @@
                 data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions">
                 Filtrar productos
             </button>
-            <select class="form-select" style="width: auto; background-color: #b88b6a; color: black;">
+            <select id="ordenSelect" class="form-select" style="width: auto; background-color: #b88b6a; color: black;">
                 <option selected>Ordenar por...</option>
                 <option value="1">Menor precio</option>
                 <option value="2">Mayor precio</option>
@@ -35,6 +35,7 @@
 
         <!-- Grid de productos -->
         <div class="row" id="productosContainer"></div>
+        <div id="mensajeVacio" style="text-align:center; margin-top: 20px; font-weight: bold;"></div>
 
     </div>
 

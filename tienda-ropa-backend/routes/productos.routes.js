@@ -250,8 +250,8 @@ router.get('/grupo/:producto_padre_id', async (req, res) => {
   }
 });
 
-// Actualizar un producto
-router.put('/:id', async (req, res) => {
+// Actualizar un producto (con imagen opcional)
+router.put('/:id', upload.single('imagen'), async (req, res) => {
   const id = req.params.id;
   const {
     nombre,
@@ -260,16 +260,49 @@ router.put('/:id', async (req, res) => {
     stock,
     codigo_barras,
     talla,
-    color
+    color,
+    producto_padre_id
   } = req.body;
 
   try {
+    // Obtener imagen actual
+    const [productos] = await conn.query('SELECT imagen FROM productos WHERE id = ?', [id]);
+    if (productos.length === 0) {
+      return res.status(404).json({ mensaje: 'Producto no encontrado' });
+    }
+
+    let imagen = productos[0].imagen;
+
+    // Si se envía nueva imagen, procesarla
+    if (req.file) {
+      const nombreFinal = `producto-${Date.now()}.jpg`;
+      const rutaDestino = path.join(__dirname, '../public/img/', nombreFinal);
+
+      await sharp(req.file.path)
+        .resize({ width: 800 })
+        .jpeg({ quality: 80 })
+        .toFile(rutaDestino);
+
+      fs.unlinkSync(req.file.path);
+
+      // Eliminar imagen anterior (si no es la default)
+      if (imagen && imagen !== 'default.jpg') {
+        const rutaAnterior = path.join(__dirname, '../public/img/', imagen);
+        if (fs.existsSync(rutaAnterior)) {
+          fs.unlinkSync(rutaAnterior);
+        }
+      }
+
+      imagen = nombreFinal;
+    }
+
+    // Actualizar datos en la BD
     const [result] = await conn.query(
       `UPDATE productos 
        SET nombre = ?, categoria = ?, precio = ?, stock = ?, 
-           codigo_barras = ?, talla = ?, color = ?
+           codigo_barras = ?, talla = ?, color = ?, producto_padre_id = ?, imagen = ?
        WHERE id = ?`,
-      [nombre, categoria, precio, stock, codigo_barras, talla, color, id]
+      [nombre, categoria, precio, stock, codigo_barras, talla, color, producto_padre_id, imagen, id]
     );
 
     if (result.affectedRows === 0) {
@@ -282,5 +315,20 @@ router.put('/:id', async (req, res) => {
     res.status(500).json({ mensaje: 'Error al actualizar producto' });
   }
 });
+
+// // Ruta temporal para crear un admin (BORRAR después de usar)
+// router.post('/crear-admin', async (req, res) => {
+//   const { email, password } = req.body;
+
+//   try {
+//     const hashedPassword = await bcrypt.hash(password, 10);
+//     await conn.query('INSERT INTO admin (email, contraseña) VALUES (?, ?)', [email, hashedPassword]);
+
+//     res.json({ mensaje: 'Administrador creado correctamente' });
+//   } catch (error) {
+//     console.error('Error al crear admin:', error);
+//     res.status(500).json({ mensaje: 'Error al crear admin' });
+//   }
+// });
 
 export default router;

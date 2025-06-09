@@ -38,11 +38,11 @@
                                 <input type="text" id="searchBarcode" class="form-control" placeholder="Escanear..." />
                                 <button id="clearSearch" class="btn btn-outline-secondary" type="button">✕</button>
                             </div>
+                            <p id="mensajeBusqueda" style="color: red; font-weight: bold"></p>
                         </div>
 
                         <div id="resultadoBusqueda"></div>
                     </div>
-
                     <a type="button" class="btn btn-primary align-end" href="vendedor_agregar_producto.html">Agregar
                         Producto</a>
                     <a type="button" class="btn btn-success align-end" href="vendedor_vender_producto.html">Vender
@@ -52,6 +52,7 @@
                     <thead>
                         <tr>
                             <th>ID</th>
+                            <th>Id Grupo</th>
                             <th>Nombre</th>
                             <th>Categoría</th>
                             <th>Precio</th>
@@ -93,6 +94,12 @@
                         </div>
 
                         <div class="mb-3">
+                            <label for="editarProductoPadreId" class="form-label">Id Grupo</label>
+                            <input type="text" class="form-control" id="editarProductoPadreId" name="producto_padre_id"
+                                required>
+                        </div>
+
+                        <div class="mb-3">
                             <label class="form-label">Categoría</label>
                             <input type="text" class="form-control" id="editarCategoria" required />
                         </div>
@@ -120,6 +127,13 @@
                         <div class="mb-3">
                             <label class="form-label">Color</label>
                             <input type="text" class="form-control" id="editarColor" />
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="editarImagen" class="form-label">Imagen</label>
+                            <input type="file" class="form-control" id="editarImagen" accept="image/*">
+                            <img id="vistaPreviaImagen" src="" alt="Vista previa"
+                                style="margin-top: 10px; max-height: 150px;">
                         </div>
 
                         <div class="modal-footer">
