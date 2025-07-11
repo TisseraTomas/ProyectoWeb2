@@ -126,11 +126,18 @@ router.post('/ventas/vender', async (req, res) => {
   }
 });
 
-//Trae todos los productos con fecha de creacion
+//Trae todos los productos con fecha de creacion y paginacion
 router.get('/mostrar/catalogo', async (req, res) => {
-  try {
-    const [productos] = await conn.query('SELECT * FROM productos');
+  const page = parseInt(req.query.page) || 1; // página actual
+  const limit = 12; // productos por página
+  const offset = (page - 1) * limit;
 
+  try {
+    const [productos] = await conn.query(
+      'SELECT * FROM productos ORDER BY fecha_creacion DESC LIMIT ? OFFSET ?',
+      [limit, offset]
+    );
+    
     const productosConFlag = productos.map(p => {
       const fecha = new Date(p.fecha_creacion);
       const ahora = new Date();
@@ -145,10 +152,37 @@ router.get('/mostrar/catalogo', async (req, res) => {
   }
 });
 
+// //Trae todos los productos con fecha de creacion
+// router.get('/mostrar/catalogo', async (req, res) => {
+//   try {
+//     const [productos] = await conn.query('SELECT * FROM productos');
+
+//     const productosConFlag = productos.map(p => {
+//       const fecha = new Date(p.fecha_creacion);
+//       const ahora = new Date();
+//       const esNuevo = (ahora - fecha) <= 7 * 24 * 60 * 60 * 1000; // últimos 7 días
+//       return { ...p, esNuevo };
+//     });
+
+//     res.json(productosConFlag);
+//   } catch (err) {
+//     console.error('Error al obtener productos:', err);
+//     res.status(500).json({ error: 'Error interno' });
+//   }
+// });
+
 // Trae solo los productos nuevos (últimos 7 días)
 router.get('/mostrar/catalogo/nuevos', async (req, res) => {
+
+  const page = parseInt(req.query.page) || 1; // página actual
+  const limit = 12; // productos por página
+  const offset = (page - 1) * limit;
+
   try {
-    const [productos] = await conn.query('SELECT * FROM productos');
+    const [productos] = await conn.query(
+      'SELECT * FROM productos ORDER BY fecha_creacion DESC LIMIT ? OFFSET ?',
+      [limit, offset]
+    );
 
     const ahora = new Date();
     const productosNuevos = productos.filter(p => {
