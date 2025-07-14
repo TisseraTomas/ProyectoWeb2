@@ -91,40 +91,85 @@ router.get('/:codigo', async (req, res) => {
 });
 
 // Ruta para vender producto (descontar stock)
-router.post('/ventas/vender', async (req, res) => {
-  const { codigo_barras, cantidad = 1 } = req.body;
+// router.post('/ventas/vender', async (req, res) => {
+//   const { codigo_barras, cantidad = 1 } = req.body;
+
+//   try {
+//     const [results] = await conn.query('SELECT * FROM productos WHERE codigo_barras = ?', [codigo_barras]);
+//     if (results.length === 0) return res.status(404).json({ error: 'Producto no encontrado' });
+
+//     const producto = results[0];
+
+//     if (producto.stock < cantidad) {
+//       return res.status(400).json({ error: 'Stock insuficiente' });
+//     }
+
+//     // Registrar la venta
+//     await conn.query(
+//       `INSERT INTO ventas (producto_id, cantidad, precio_unitario)
+//        VALUES (?, ?, ?)`,
+//       [producto.id, cantidad, producto.precio]
+//     );
+
+//     if (producto.stock === cantidad) {
+//       await conn.query('DELETE FROM productos WHERE codigo_barras = ?', [codigo_barras]);
+//       return res.json({ mensaje: `Producto vendido y eliminado (${cantidad} unidad/es)` });
+//     } else {
+//       await conn.query('UPDATE productos SET stock = stock - ? WHERE codigo_barras = ?', [cantidad, codigo_barras]);
+//       return res.json({ mensaje: `Producto vendido: ${cantidad} unidad/es` });
+//     }
+
+
+//   } catch (err) {
+//     console.error('Error en la venta:', err);
+//     res.status(500).json({ error: 'Error en la operación de venta' });
+//   }
+// });
+
+// Ruta para vender múltiples productos
+router.post('/ventas/vender-multiple', async (req, res) => {
+  const productos = req.body; // [{codigo_barras, cantidad}, ...]
+
+  const connection = await conn.getConnection();
+  await connection.beginTransaction();
 
   try {
-    const [results] = await conn.query('SELECT * FROM productos WHERE codigo_barras = ?', [codigo_barras]);
-    if (results.length === 0) return res.status(404).json({ error: 'Producto no encontrado' });
+    for (const item of productos) {
+      const [rows] = await connection.query(
+        'SELECT * FROM productos WHERE codigo_barras = ?',
+        [item.codigo_barras]
+      );
+      if (rows.length === 0) throw new Error(`Producto ${item.codigo_barras} no encontrado`);
 
-    const producto = results[0];
+      const producto = rows[0];
+      if (producto.stock < item.cantidad) throw new Error(`Stock insuficiente para ${producto.nombre}`);
 
-    if (producto.stock < cantidad) {
-      return res.status(400).json({ error: 'Stock insuficiente' });
+      await connection.query(
+        'INSERT INTO ventas (producto_id, cantidad, precio_unitario) VALUES (?, ?, ?)',
+        [producto.id, item.cantidad, producto.precio]
+      );
+
+      if (producto.stock === item.cantidad) {
+        await connection.query('DELETE FROM productos WHERE codigo_barras = ?', [item.codigo_barras]);
+      } else {
+        await connection.query(
+          'UPDATE productos SET stock = stock - ? WHERE codigo_barras = ?',
+          [item.cantidad, item.codigo_barras]
+        );
+      }
     }
 
-    // Registrar la venta
-    await conn.query(
-      `INSERT INTO ventas (producto_id, cantidad, precio_unitario)
-       VALUES (?, ?, ?)`,
-      [producto.id, cantidad, producto.precio]
-    );
-
-    if (producto.stock === cantidad) {
-      await conn.query('DELETE FROM productos WHERE codigo_barras = ?', [codigo_barras]);
-      return res.json({ mensaje: `Producto vendido y eliminado (${cantidad} unidad/es)` });
-    } else {
-      await conn.query('UPDATE productos SET stock = stock - ? WHERE codigo_barras = ?', [cantidad, codigo_barras]);
-      return res.json({ mensaje: `Producto vendido: ${cantidad} unidad/es` });
-    }
-    
-
+    await connection.commit();
+    res.json({ mensaje: 'Venta realizada correctamente' });
   } catch (err) {
-    console.error('Error en la venta:', err);
-    res.status(500).json({ error: 'Error en la operación de venta' });
+    await connection.rollback();
+    console.error(err);
+    res.status(500).json({ error: err.message || 'Error en la operación de venta' });
+  } finally {
+    connection.release();
   }
 });
+
 
 //Trae todos los productos con fecha de creacion y paginacion
 router.get('/mostrar/catalogo', async (req, res) => {
@@ -137,7 +182,7 @@ router.get('/mostrar/catalogo', async (req, res) => {
       'SELECT * FROM productos ORDER BY fecha_creacion DESC LIMIT ? OFFSET ?',
       [limit, offset]
     );
-    
+
     const productosConFlag = productos.map(p => {
       const fecha = new Date(p.fecha_creacion);
       const ahora = new Date();
