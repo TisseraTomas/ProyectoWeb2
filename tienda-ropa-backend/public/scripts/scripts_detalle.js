@@ -1,26 +1,4 @@
 
-// document.addEventListener('DOMContentLoaded', async () => {
-//     const params = new URLSearchParams(window.location.search);
-//     const id = params.get('idGrupo');
-
-//     if (!id) {
-//         console.error('ID de producto no proporcionado');
-//         return;
-//     }
-
-//     try {
-//         const res = await fetch(`http://localhost:3000/api/productos/id/${producto_padre_id}`);
-//         const producto = await res.json();
-
-//         // Ejemplo: actualizar título, precio, imagen, etc.
-//         document.querySelector('h3').textContent = producto.nombre;
-//         document.querySelector('h4').textContent = `$ ${producto.precio.toLocaleString()}`;
-//         document.querySelector('.img-fluid').src = `./img/${producto.imagen}`;
-//         // Podés completar más campos como color, talle, etc.
-//     } catch (error) {
-//         console.error('Error al cargar detalles del producto:', error);
-//     }
-// });
 const mapaColores = {
     negro: '#000000',
     blanco: '#ffffff',
@@ -174,6 +152,36 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
         };
     }
+    const btnAgregarCarrito = document.getElementById("btnAgregarCarrito");
+
+    btnAgregarCarrito.addEventListener("click", function () {
+        const nombre = document.getElementById("nombreProducto").textContent;
+        const precio = parseFloat(document.getElementById("precioProducto").textContent.replace("$", ""));
+        const color = document.querySelector(".color-option.selected")?.dataset.color || "Sin color";
+        const talle = document.querySelector(".size-option.selected")?.dataset.talle || "Sin talle";
+        const cantidad = parseInt(document.getElementById("cantidad").value);
+
+        if (isNaN(cantidad) || cantidad <= 0) {
+            document.getElementById("mensajeCantidad").textContent = "La cantidad debe ser mayor a 0.";
+            return;
+        }
+
+        const producto = {
+            nombre,
+            precio,
+            color,
+            talle,
+            cantidad
+        };
+
+        agregarAlCarrito(producto); // función definida en include-carrito.js
+        alert("Producto agregado al carrito");
+    });
 });
+
+
+
+
+
 
 
