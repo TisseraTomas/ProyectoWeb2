@@ -14,8 +14,6 @@
 </head>
 
 <body class="bg-light">
-    <!-- NAVBAR -->
-    <div id="navbar-container"></div>
 
     <!-- CONTENIDO PRINCIPAL -->
     <div class="container py-4">
@@ -25,8 +23,8 @@
 
             <div id="filter-container"></div>
             <!-- Botón para abrir el filtro -->
-            <button class="btn btn-dark me-auto" type="button" data-bs-toggle="offcanvas"
-                data-bs-target="#offcanvasWithBothOptions">
+            <button class="btn me-auto" style="background-color: #b88b6a; color: black;" type="button"
+                data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions">
                 Filtrar productos
             </button>
             <select id="ordenSelect" class="form-select" style="width: auto; background-color: #b88b6a; color: black;">
@@ -43,8 +41,11 @@
 
     <!-- Footer -->
     <div id="footer-placeholder"></div>
+    <!-- NAVBAR -->
+    <div id="navbar-container"></div>
+    <!-- CARRITO -->
     <div id="carrito-container"></div>
-    
+
     <script>
         fetch("footer.html")
             .then(response => response.text())

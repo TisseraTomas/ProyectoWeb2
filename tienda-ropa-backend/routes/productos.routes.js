@@ -77,6 +77,36 @@ router.post('/agregar', upload.single('imagen'), async (req, res) => {
   }
 });
 
+// Buscar productos por texto
+router.get('/buscar', async (req, res) => {
+  const query = `%${req.query.query}%`;
+  try {
+    const [resultados] = await conn.query(
+      'SELECT * FROM productos WHERE nombre LIKE ? OR descripcion LIKE ?',
+      [query, query]
+    );
+    res.json(resultados);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Error al buscar productos' });
+  }
+});
+
+// Sugerencias para el input
+router.get('/sugerencias', async (req, res) => {
+  const query = `%${req.query.query}%`;
+  try {
+    const [sugerencias] = await conn.query(
+      'SELECT nombre FROM productos WHERE nombre LIKE ? LIMIT 5',
+      [query]
+    );
+    res.json(sugerencias);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Error al obtener sugerencias' });
+  }
+});
+
 
 // Ruta para buscar producto por código de barras
 router.get('/:codigo', async (req, res) => {
@@ -89,42 +119,6 @@ router.get('/:codigo', async (req, res) => {
     res.status(500).json({ error: 'Error al buscar producto' });
   }
 });
-
-// Ruta para vender producto (descontar stock)
-// router.post('/ventas/vender', async (req, res) => {
-//   const { codigo_barras, cantidad = 1 } = req.body;
-
-//   try {
-//     const [results] = await conn.query('SELECT * FROM productos WHERE codigo_barras = ?', [codigo_barras]);
-//     if (results.length === 0) return res.status(404).json({ error: 'Producto no encontrado' });
-
-//     const producto = results[0];
-
-//     if (producto.stock < cantidad) {
-//       return res.status(400).json({ error: 'Stock insuficiente' });
-//     }
-
-//     // Registrar la venta
-//     await conn.query(
-//       `INSERT INTO ventas (producto_id, cantidad, precio_unitario)
-//        VALUES (?, ?, ?)`,
-//       [producto.id, cantidad, producto.precio]
-//     );
-
-//     if (producto.stock === cantidad) {
-//       await conn.query('DELETE FROM productos WHERE codigo_barras = ?', [codigo_barras]);
-//       return res.json({ mensaje: `Producto vendido y eliminado (${cantidad} unidad/es)` });
-//     } else {
-//       await conn.query('UPDATE productos SET stock = stock - ? WHERE codigo_barras = ?', [cantidad, codigo_barras]);
-//       return res.json({ mensaje: `Producto vendido: ${cantidad} unidad/es` });
-//     }
-
-
-//   } catch (err) {
-//     console.error('Error en la venta:', err);
-//     res.status(500).json({ error: 'Error en la operación de venta' });
-//   }
-// });
 
 // Ruta para vender múltiples productos
 router.post('/ventas/vender-multiple', async (req, res) => {
@@ -197,24 +191,6 @@ router.get('/mostrar/catalogo', async (req, res) => {
   }
 });
 
-// //Trae todos los productos con fecha de creacion
-// router.get('/mostrar/catalogo', async (req, res) => {
-//   try {
-//     const [productos] = await conn.query('SELECT * FROM productos');
-
-//     const productosConFlag = productos.map(p => {
-//       const fecha = new Date(p.fecha_creacion);
-//       const ahora = new Date();
-//       const esNuevo = (ahora - fecha) <= 7 * 24 * 60 * 60 * 1000; // últimos 7 días
-//       return { ...p, esNuevo };
-//     });
-
-//     res.json(productosConFlag);
-//   } catch (err) {
-//     console.error('Error al obtener productos:', err);
-//     res.status(500).json({ error: 'Error interno' });
-//   }
-// });
 
 // Trae solo los productos nuevos (últimos 7 días)
 router.get('/mostrar/catalogo/nuevos', async (req, res) => {
@@ -394,20 +370,5 @@ router.put('/:id', upload.single('imagen'), async (req, res) => {
     res.status(500).json({ mensaje: 'Error al actualizar producto' });
   }
 });
-
-// // Ruta temporal para crear un admin (BORRAR después de usar)
-// router.post('/crear-admin', async (req, res) => {
-//   const { email, password } = req.body;
-
-//   try {
-//     const hashedPassword = await bcrypt.hash(password, 10);
-//     await conn.query('INSERT INTO admin (email, contraseña) VALUES (?, ?)', [email, hashedPassword]);
-
-//     res.json({ mensaje: 'Administrador creado correctamente' });
-//   } catch (error) {
-//     console.error('Error al crear admin:', error);
-//     res.status(500).json({ mensaje: 'Error al crear admin' });
-//   }
-// });
 
 export default router;
