@@ -70,8 +70,39 @@ CREATE TABLE `productos` (
 
 LOCK TABLES `productos` WRITE;
 /*!40000 ALTER TABLE `productos` DISABLE KEYS */;
-INSERT INTO `productos` VALUES (1,1,'Remera básica','Remeras',4999.99,15,'100001','M','Blanco','default.jpg','2025-06-06 11:10:16'),(5,2,'Buzo oversize negro','Buzos',8999.99,15,'100002','L','Negro','default.jpg','2025-06-06 11:10:16'),(6,3,'Campera de jean','Camperas',14999.00,10,'100003','M','Azul','default.jpg','2025-06-06 11:10:16'),(7,7,'Pantalón cargo verde','Pantalones',11999.00,12,'100004','L','Verde','default.jpg','2025-06-06 11:10:16'),(8,8,'Remera oversize gris','Remeras',5499.00,30,'100005','XL','Gris','default.jpg','2025-06-06 11:10:16'),(9,9,'Campera rompevientos','Camperas',13999.00,8,'100006','S','Rojo','default.jpg','2025-06-06 11:10:16'),(10,10,'Pantalón jogging','Pantalones',9999.00,18,'100007','M','Negro','default.jpg','2025-06-06 11:10:16'),(11,11,'Buzo con capucha beige','Buzos',8999.00,14,'100008','L','Beige','default.jpg','2025-06-06 11:10:16'),(12,12,'Remera estampada azul','Remeras',5999.00,22,'100009','S','Azul','default.jpg','2025-06-06 11:10:16'),(13,13,'Campera inflable negra','Camperas',15999.00,9,'100010','XL','Negro','default.jpg','2025-06-06 11:10:16'),(15,15,'pantalon gris','Pantalones',6999.99,6,'56877492','S','gris','producto-1748440981559.jpg','2025-06-06 11:10:16'),(16,1,'Remera básica','Remeras',4999.99,20,'10000001','S','Negro','default.jpg','2025-06-07 23:03:55'),(19,1,'Remera básica','Remeras',4999.99,23,'1354668','M','Negro','default.jpg','2025-06-07 23:22:57'),(23,13,'Campera inflable','Camperas',15999.00,13,'556468741','XL','Azul','default.jpg','2025-06-07 23:55:21');
+INSERT INTO `productos` VALUES (1,1,'Remera básica','Remeras',4999.99,10,'100001','M','Blanco','default.jpg','2025-06-06 11:10:16'),(5,2,'Buzo oversize negro','Buzos',8999.99,15,'100002','L','Negro','default.jpg','2025-06-06 11:10:16'),(6,3,'Campera de jean','Camperas',14999.00,10,'100003','M','Azul','default.jpg','2025-06-06 11:10:16'),(7,7,'Pantalón cargo verde','Pantalones',11999.00,12,'100004','L','Verde','default.jpg','2025-06-06 11:10:16'),(8,8,'Remera oversize gris','Remeras',5499.00,30,'100005','XL','Gris','default.jpg','2025-06-06 11:10:16'),(9,9,'Campera rompevientos','Camperas',13999.00,8,'100006','S','Rojo','default.jpg','2025-06-06 11:10:16'),(10,10,'Pantalón jogging','Pantalones',9999.00,18,'100007','M','Negro','default.jpg','2025-06-06 11:10:16'),(11,11,'Buzo con capucha beige','Buzos',8999.00,14,'100008','L','Beige','default.jpg','2025-06-06 11:10:16'),(12,12,'Remera estampada azul','Remeras',5999.00,22,'100009','S','Azul','default.jpg','2025-06-06 11:10:16'),(13,13,'Campera inflable negra','Camperas',15999.00,9,'100010','XL','Negro','default.jpg','2025-06-06 11:10:16'),(15,15,'pantalon gris','Pantalones',6999.99,2,'56877492','S','gris','producto-1748440981559.jpg','2025-06-06 11:10:16'),(16,1,'Remera básica','Remeras',4999.99,20,'10000001','S','Negro','default.jpg','2025-06-07 23:03:55'),(19,1,'Remera básica','Remeras',4999.99,23,'1354668','M','Negro','default.jpg','2025-06-07 23:22:57'),(23,13,'Campera inflable','Camperas',15999.00,13,'556468741','XL','Azul','default.jpg','2025-06-07 23:55:21');
 /*!40000 ALTER TABLE `productos` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `usuarios`
+--
+
+DROP TABLE IF EXISTS `usuarios`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `usuarios` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `email` varchar(255) NOT NULL,
+  `contraseña` varchar(255) NOT NULL,
+  `nombre` varchar(100) DEFAULT NULL,
+  `apellido` varchar(100) DEFAULT NULL,
+  `direccion` varchar(255) DEFAULT NULL,
+  `telefono` varchar(20) DEFAULT NULL,
+  `creado_en` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `email` (`email`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `usuarios`
+--
+
+LOCK TABLES `usuarios` WRITE;
+/*!40000 ALTER TABLE `usuarios` DISABLE KEYS */;
+INSERT INTO `usuarios` VALUES (1,'ttissera754@alumnos.iua.edu.ar','$2b$10$/sJlT/21adbVhQ/34ttWaOWk2UM.uT3oQtjp3UkRCk2hwrBv0MST6',NULL,NULL,NULL,NULL,'2025-07-21 17:58:38'),(3,'tisse@gmail.com','$2b$10$ZXEjw/ucSo4o8T0iO4NX0eB0AwVw5qiT2AYIRsWTa6YN/KYy/uUJa','Tomas','Tissera','juan 123','351698423','2025-07-21 20:03:47');
+/*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -90,7 +121,7 @@ CREATE TABLE `ventas` (
   PRIMARY KEY (`id`),
   KEY `producto_id` (`producto_id`),
   CONSTRAINT `ventas_ibfk_1` FOREIGN KEY (`producto_id`) REFERENCES `productos` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -99,13 +130,9 @@ CREATE TABLE `ventas` (
 
 LOCK TABLES `ventas` WRITE;
 /*!40000 ALTER TABLE `ventas` DISABLE KEYS */;
-INSERT INTO `ventas` VALUES (1,1,1,4999.99,'2025-05-28 18:59:45'),(2,1,2,4999.99,'2025-06-08 17:08:50');
+INSERT INTO `ventas` VALUES (1,1,1,4999.99,'2025-05-28 18:59:45'),(2,1,2,4999.99,'2025-06-08 17:08:50'),(3,1,1,4999.99,'2025-07-14 19:18:29'),(4,15,2,6999.99,'2025-07-14 19:18:29'),(5,1,2,4999.99,'2025-07-14 19:19:55'),(6,15,1,6999.99,'2025-07-14 19:19:55'),(7,1,2,4999.99,'2025-07-14 19:24:07'),(8,15,1,6999.99,'2025-07-14 19:24:07');
 /*!40000 ALTER TABLE `ventas` ENABLE KEYS */;
 UNLOCK TABLES;
-
---
--- Dumping routines for database 'tienda_ropa'
---
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -116,4 +143,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-06-09  9:27:21
+-- Dump completed on 2025-07-22  9:35:22
