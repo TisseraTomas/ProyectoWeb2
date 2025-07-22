@@ -157,6 +157,8 @@ function mostrarPerfilEditable(user) {
         method: 'POST',
         credentials: 'include'
       });
+      // ✅ Limpiar carrito al cerrar sesión
+      localStorage.removeItem("carrito");
       comprobarUsuario();
     } catch (err) {
       console.error('Error al cerrar sesión:', err);
