@@ -1,4 +1,6 @@
-// let productosGlobal = [];      // Catálogo completo
+// let page = 1;                 // Página actual
+// let cargando = false;        // Para no hacer múltiples fetch a la vez
+// const esNewIn = !!document.getElementById("productosContainerNewIn");
 
 // // Función para ordenar un array de productos
 // function ordenarProductos(arr, criterio) {
@@ -28,8 +30,8 @@
 //          onclick="window.location.href='detalleProductos.html?idGrupo=${encodeURIComponent(producto.producto_padre_id)}'"
 //          style="cursor: pointer;">
 //       ${producto.esNuevo ?
-//       '<span class="badge bg-light text-dark position-absolute top-0 start-0 m-2">NEW IN</span>'
-//       : ''}
+//         '<span class="badge bg-light text-dark position-absolute top-0 start-0 m-2">NEW IN</span>'
+//         : ''}
 //       <img src="./img/${producto.imagen}" class="card-img-top" 
 //            alt="${producto.nombre}" style="height: 300px; object-fit: cover;">
 //       <div class="card-body text-center">
@@ -52,8 +54,11 @@
 //   return Array.from(mapa.values());
 // }
 
-// // La función principal que carga, filtra, agrupa, ordena y renderiza
-// async function actualizarVista(esNewIn) {
+// // Cargar productos de la página actual
+// async function cargarMasProductos() {
+//   if (cargando) return;
+//   cargando = true;
+
 //   const params = new URLSearchParams(window.location.search);
 //   const categoria = params.get("categoria");
 //   const talla = params.get("talla");
@@ -61,91 +66,98 @@
 //   const precioMax = params.get("precioMax");
 //   const criterio = document.getElementById("ordenSelect")?.value || "";
 
-//   // 1) Obtener datos
-//   let arr;
-//   if (esNewIn) {
-//     // Vista New In: fetch a endpoint nuevos
-//     const resN = await fetch("http://localhost:3000/api/productos/mostrar/catalogo/nuevos");
-//     const allN = await resN.json();
-//     arr = allN.filter(p => p.esNuevo);
-//   } else {
-//     // Vista catálogo completo: usamos el array global
-//     arr = productosGlobal;
+//   try {
+//     let url = `http://localhost:3000/api/productos/mostrar/catalogo?page=${page}`;
+//     if (esNewIn) {
+//       url = `http://localhost:3000/api/productos/mostrar/catalogo/nuevos?page=${page}`;
+//     }
+
+//     const res = await fetch(url);
+//     let productos = await res.json();
+
+//     if (!Array.isArray(productos) || productos.length === 0) {
+//       console.log("No hay más productos para cargar.");
+//       window.removeEventListener("scroll", scrollHandler);
+//       cargando = false;
+//       return;
+//     }
+
+//     // filtros
+//     if (categoria) productos = productos.filter(p => p.categoria.toLowerCase() === categoria.toLowerCase());
+//     if (talla) productos = productos.filter(p => p.talla === talla);
+//     if (color) productos = productos.filter(p => p.color.toLowerCase() === color.toLowerCase());
+//     if (precioMax) productos = productos.filter(p => p.precio <= Number(precioMax));
+
+//     // agrupar
+//     productos = agruparPorProductoPadre(productos);
+
+//     // ordenar
+//     productos = ordenarProductos(productos, criterio);
+
+//     // renderizar
+//     const container = esNewIn
+//       ? document.getElementById("productosContainerNewIn")
+//       : document.getElementById("productosContainer");
+
+//     if (!esNewIn && productos.length === 0 && page === 1) {
+//       container.innerHTML = "";
+//       const mensajeVacio = document.getElementById("mensajeVacio");
+//       if (mensajeVacio) {
+//         mensajeVacio.textContent = "No hay productos que coincidan con los filtros seleccionados.";
+//       }
+//       cargando = false;
+//       return;
+//     }
+
+//     productos.forEach(p => container.appendChild(crearCardProducto(p)));
+
+//     page++;
+//   } catch (err) {
+//     console.error("Error al traer productos:", err);
+//   } finally {
+//     cargando = false;
 //   }
+// }
 
-//   // 2) Aplicar filtros
-//   if (categoria) arr = arr.filter(p => p.categoria.toLowerCase() === categoria.toLowerCase());
-//   if (talla) arr = arr.filter(p => p.talla === talla);
-//   if (color) arr = arr.filter(p => p.color.toLowerCase() === color.toLowerCase());
-//   if (precioMax) arr = arr.filter(p => p.precio <= Number(precioMax));
+// // scroll infinito
+// function scrollHandler() {
+//   if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 50) {
+//     cargarMasProductos();
+//   }
+// }
 
-//   // 3) Agrupar
-//   let lista = agruparPorProductoPadre(arr);
-
-//   // 4) Ordenar
-//   lista = ordenarProductos(lista, criterio);
-
-//   // 5) Renderizar
+// // reset y recargar (cuando cambia el orden)
+// function resetYRecargar() {
+//   page = 1;
 //   const container = esNewIn
 //     ? document.getElementById("productosContainerNewIn")
 //     : document.getElementById("productosContainer");
-
-//   // Sólo obtener mensajeVacio si NO es New In
-//   const mensajeVacio = !esNewIn
-//     ? document.getElementById("mensajeVacio")
-//     : null;
-
-//   if (!esNewIn && lista.length === 0) {
-//     container.innerHTML = "";
-//     mensajeVacio.textContent = "No hay productos que coincidan con los filtros seleccionados.";
-//   } 
-
-//   // En New In, simplemente limpiamos y mostramos siempre
 //   container.innerHTML = "";
-//   lista.forEach(p => container.appendChild(crearCardProducto(p)));
+//   cargarMasProductos();
 // }
 
-// document.addEventListener("DOMContentLoaded", async () => {
+// document.addEventListener("DOMContentLoaded", () => {
 //   const ordenSelect = document.getElementById("ordenSelect");
-//   const esNewIn = !!document.getElementById("productosContainerNewIn");
+//   ordenSelect?.addEventListener("change", () => resetYRecargar());
 
-//   if (!esNewIn) {
-//     // Cargo catálogo completo solo en vista estándar
-//     try {
-//       const res = await fetch("http://localhost:3000/api/productos/mostrar/catalogo");
-//       productosGlobal = await res.json();
-//     } catch (err) {
-//       console.error("Error al traer catálogo:", err);
-//       return;
-//     }
-//   }
-
-//   // Escucho cambios de orden si existe el select
-//   ordenSelect?.addEventListener("change", () => actualizarVista(esNewIn));
-
-//   // Primera llamada: renderizo según sea New In o catálogo
-//   actualizarVista(esNewIn);
+//   cargarMasProductos(); // primera página
+//   window.addEventListener("scroll", scrollHandler);
 // });
-
-let page = 1;                 // Página actual
-let cargando = false;        // Para no hacer múltiples fetch a la vez
+let page = 1;                 
+let cargando = false;        
 const esNewIn = !!document.getElementById("productosContainerNewIn");
+
+const params = new URLSearchParams(window.location.search);
+const query = params.get("query");
 
 // Función para ordenar un array de productos
 function ordenarProductos(arr, criterio) {
   const lista = [...arr];
   switch (criterio) {
-    case "1": // Menor precio
-      lista.sort((a, b) => a.precio - b.precio);
-      break;
-    case "2": // Mayor precio
-      lista.sort((a, b) => b.precio - a.precio);
-      break;
-    case "3": // Nuevos primero
-      lista.sort((a, b) => (b.esNuevo === true) - (a.esNuevo === true));
-      break;
-    default:
-      break;
+    case "1": lista.sort((a, b) => a.precio - b.precio); break;
+    case "2": lista.sort((a, b) => b.precio - a.precio); break;
+    case "3": lista.sort((a, b) => (b.esNuevo === true) - (a.esNuevo === true)); break;
+    default: break;
   }
   return lista;
 }
@@ -183,12 +195,37 @@ function agruparPorProductoPadre(arr) {
   return Array.from(mapa.values());
 }
 
-// Cargar productos de la página actual
+// BUSCAR productos (si viene query en la URL)
+async function buscarProductos(termino) {
+  const container = document.getElementById("productosContainer");
+  const mensajeVacio = document.getElementById("mensajeVacio");
+  container.innerHTML = "";
+  mensajeVacio.textContent = "";
+
+  try {
+    const res = await fetch(`http://localhost:3000/api/productos/buscar?query=${encodeURIComponent(termino)}`);
+    if (!res.ok) throw new Error("Error en búsqueda");
+
+    const productos = await res.json();
+
+    if (!Array.isArray(productos) || productos.length === 0) {
+      mensajeVacio.textContent = "No se encontraron productos para la búsqueda.";
+      return;
+    }
+
+    productos.forEach(p => container.appendChild(crearCardProducto(p)));
+
+  } catch (err) {
+    console.error("❌ Error buscando productos:", err);
+    mensajeVacio.textContent = "Ocurrió un error al buscar productos.";
+  }
+}
+
+// Cargar productos de catálogo
 async function cargarMasProductos() {
   if (cargando) return;
   cargando = true;
 
-  const params = new URLSearchParams(window.location.search);
   const categoria = params.get("categoria");
   const talla = params.get("talla");
   const color = params.get("color");
@@ -265,10 +302,17 @@ function resetYRecargar() {
   cargarMasProductos();
 }
 
+// INICIALIZAR
 document.addEventListener("DOMContentLoaded", () => {
   const ordenSelect = document.getElementById("ordenSelect");
   ordenSelect?.addEventListener("change", () => resetYRecargar());
 
-  cargarMasProductos(); // primera página
-  window.addEventListener("scroll", scrollHandler);
+  if (query) {
+    // si viene una búsqueda en la URL
+    buscarProductos(query);
+  } else {
+    // catálogo normal con scroll infinito
+    cargarMasProductos();
+    window.addEventListener("scroll", scrollHandler);
+  }
 });

@@ -82,7 +82,7 @@ router.get('/buscar', async (req, res) => {
   const query = `%${req.query.query}%`;
   try {
     const [resultados] = await conn.query(
-      'SELECT * FROM productos WHERE nombre LIKE ? OR descripcion LIKE ?',
+      'SELECT * FROM productos WHERE nombre LIKE ? OR categoria LIKE ?',
       [query, query]
     );
     res.json(resultados);
