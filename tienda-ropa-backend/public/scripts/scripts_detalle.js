@@ -156,9 +156,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     btnAgregarCarrito.addEventListener("click", function () {
         const nombre = document.getElementById("nombreProducto").textContent;
-        const precio = parseFloat(
-            document.getElementById("precioProducto").textContent.replace("$", "").replace(".", ",")
-        );
+        const precioTexto = document.getElementById("precioProducto").textContent;
+        const precio = parseFloat(precioTexto.replace(/\$/g, "").replace(/\s/g, "").replace(/,/g, ""));
         const color = document.querySelector(".color-option.border-3")?.dataset.color || "Sin color";
         const talle = document.querySelector(".size-option.active")?.dataset.talla || "Sin talle";
         const cantidad = parseInt(document.getElementById("cantidad").value);
