@@ -1,4 +1,3 @@
-// public/js/include-navbar.js
 document.addEventListener("DOMContentLoaded", () => {
   fetch("navBar.html")
     .then(res => res.text())
